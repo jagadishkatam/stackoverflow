@@ -114,8 +114,8 @@ staticplot2 = ggplot(stack3, aes(rank, num_questions)) +
 
 anim = staticplot2 + gganimate::transition_states(year, transition_length = 4, state_length = 1) +
   gganimate::view_follow(fixed_x = TRUE)  +
-  enter_fade() +
-  exit_fade() +
+  gganimate::enter_fade() +
+  gganimate::exit_fade() +
   gganimate::ease_aes("quadratic-in-out") +
   labs(title = 'Popularity of Tags Per Year : {closest_state}',
        subtitle  =  "Top 10 Programming Languages",
