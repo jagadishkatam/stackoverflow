@@ -26,7 +26,7 @@ stack3 <- stack2 |>
   group_by(year) |> # The * 1 makes it possible to have non-integer ranks while sliding
   mutate(rank = rank(-num_questions),
          Value_rel = num_questions/num_questions[rank==1],
-         Value_lbl = paste0(" ",round(num_questions/1e3),' K')) |>
+         Value_lbl = paste0("  ",round(num_questions/1e3),' K')) |>
   group_by(tag) |>
   filter(rank <=10) |>
   dplyr::ungroup()
@@ -114,6 +114,8 @@ staticplot2 = ggplot(stack3, aes(rank, num_questions)) +
 
 anim = staticplot2 + gganimate::transition_states(year, transition_length = 4, state_length = 1) +
   gganimate::view_follow(fixed_x = TRUE)  +
+  enter_fade() +
+  exit_fade() +
   gganimate::ease_aes("quadratic-in-out") +
   labs(title = 'Popularity of Tags Per Year : {closest_state}',
        subtitle  =  "Top 10 Programming Languages",
