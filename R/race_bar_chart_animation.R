@@ -21,7 +21,9 @@ race_bar_chart_animation <- function(
     order(tag, year, -num_questions)
   ]
 
-  stack3 <- stack2 |>
+  stack3 <- stack2 |> complete(tag, year, fill = list(num_questions=0,year_total=0)) |>
+    # mutate(num_questions=ifelse(is.na(num_questions),0,num_questions),
+    #        year_total=ifelse(is.na(year_total),0,year_total)) |>
     group_by(year) |>
     mutate(
       rank = rank(-num_questions),
@@ -87,6 +89,14 @@ race_bar_chart_animation <- function(
   list(final_data = stack3, animation = anim, save_anim=save_anim)
 }
 
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+library(gganimate)
+library(gifski)
+library(dplyr)
+library(ggimage)
+debugonce(race_bar_chart_animation)
 # Example usage:
 result <- race_bar_chart_animation(
   data_path = './data/stackoverflow.RData',
@@ -94,5 +104,6 @@ result <- race_bar_chart_animation(
   years = 2008:2020,
   output_path = "gganim.gif"
 )
+
 
 
